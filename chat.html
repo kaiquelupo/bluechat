@@ -1,0 +1,104 @@
+  <!doctype html>
+<html lang="en">
+  <head>
+    <title>BlueChat</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/chat.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  </head>
+  <body onload="chat();">
+   
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/src/index.html">BlueChat</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#1#" onclick="exit('/src/index.html');">Add Devices</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#1#" onclick="exit('/src/chats.html');"">Chats</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3" >Chat with <strong id="device_name"></strong></h1>
+          <p id="tracking-description">Bellow is your chat. Remember that messages sent with this app closed will be not shown.</p>
+          <div id="chat-feedback" role="alert"></div>
+        </div>
+      </div>
+
+      <div class="container">
+          <div id="chat_box"></div>
+      </div> <!-- /container -->
+
+    </main>
+
+    <div id="sender_bar">
+      <input type="text" name="send" id="sender_input" 
+             onkeypress="inputEvent(event, this);"/>
+      <a href="#1#" id="send_button"></a>
+    </div>
+
+
+     <div id="loading">
+      <div>
+        <svg class="lds-wave"  width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><circle cx="11" cy="68.3092" ng-attr-r="{{config.radius}}" fill="#fcb711" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"></animate>
+      </circle><circle cx="18" cy="61.914" ng-attr-r="{{config.radius}}" fill="#f37021" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
+      </circle><circle cx="25" cy="50" ng-attr-r="{{config.radius}}" fill="#cc004c" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
+      </circle><circle cx="32" cy="38.086" ng-attr-r="{{config.radius}}" fill="#6460aa" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.25s" repeatCount="indefinite"></animate>
+      </circle><circle cx="39" cy="31.6908" ng-attr-r="{{config.radius}}" fill="#fcb711" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
+      </circle><circle cx="46" cy="30" ng-attr-r="{{config.radius}}" fill="#f37021" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
+      </circle><circle cx="53" cy="31.6908" ng-attr-r="{{config.radius}}" fill="#cc004c" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.5s" repeatCount="indefinite"></animate>
+      </circle><circle cx="60" cy="38.086" ng-attr-r="{{config.radius}}" fill="#6460aa" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
+      </circle><circle cx="67" cy="50" ng-attr-r="{{config.radius}}" fill="#fcb711" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
+      </circle><circle cx="74" cy="61.914" ng-attr-r="{{config.radius}}" fill="#f37021" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.75s" repeatCount="indefinite"></animate>
+      </circle><circle cx="81" cy="68.3092" ng-attr-r="{{config.radius}}" fill="#cc004c" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
+      </circle><circle cx="88" cy="70" ng-attr-r="{{config.radius}}" fill="#6460aa" r="3">
+        <animate attributeName="cy" values="30;70;30" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
+      </circle></svg> 
+      <span id="loading_txt"></span>
+     </div>                      
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+
+	<script src="/src/js/text.js"></script>
+	<script src="/src/js/html.js"></script>
+	<script src="/src/js/process.js"></script>
+	<script src="/src/js/utils.js"></script>
+	<script src="/src/js/bluetooth.js"></script>
+	<script src="/src/js/script.js"></script>
+  <script src="/src/js/chat.js"></script>
+
+</html>

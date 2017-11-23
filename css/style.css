@@ -1,0 +1,31 @@
+body {
+  padding-top: 3.5rem;
+}
+
+.list-group{
+	width: 100%;
+	padding: 0 15px 0 0;
+	margin-left: 15px;
+}
+
+.btns{
+	margin-right: 15px; 
+}
+
+#tracking-feedback{
+	margin-bottom: 20px;
+}
+
+.btn-add{
+	margin-left: 10px;
+	float: right;
+	cursor:pointer;
+}
+
+.device-title{
+	display: block;
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 20px; 
+}
