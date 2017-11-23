@@ -24,7 +24,6 @@ function run(cmd, args, f1, f2, f3){
 }
 
 function kill_process(proc){
-	proc.stdin.pause();
 	proc.kill();
 }
 

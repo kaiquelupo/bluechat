@@ -17,16 +17,22 @@ function chat(){
 	connect_to_device(getParameterByName("mac"), 22);
 }
 
+function bla(str){
+	alert(str);
+}
+
 function exit(link){
 	exit_status = true;
 	writeToDev(dev, "0exit0");
+	p.stdout.removeListener("data", bla);
 	kill_process(p);
+	exec("rm /dev/rfcomm0");
 	$("#loading").show();
 	$("#loading_txt").html("Disconnecting, please wait...");
 	setTimeout(function(){window.open(link,"_self");}, 1000);
 }
 
-function inputEvent(e, obj) {
+function inputEvent(e, obj) {	
     if (e.keyCode == 13) {
 		writeToDev(dev, $(obj).val());
     	$(obj).val("");
@@ -53,25 +59,20 @@ function connect_to_device(mac, channel){
 				 nothing, nothing, nothing);
 
 		$("#loading").show();
-		if(master){
+		if(!master){
 			$("#loading_txt").html("Connecting to device, please wait...");
 
-			p = exec("rfcomm -L3600 -M connect "+dev+" " + mac + " " + channel.toString(), (error, stdout, stderr) => {
-			 	if(error && !exit_status){
-			 		alert("error: " + error.toString());
-			 	}
-			 	
-			 	error_function(stdout);
-			 	error_function(stderr);
-
-			});
+			p = exec("rfcomm -L3600 -M connect "+dev+" " + mac + " " + channel.toString());
+			p.stdout.on('data', bla)
+			p.stderr.on('data', function(data){alert("stderr: " + data);})
+			p.stderr.on('exit', function(data){alert("exit: " + data);})
 
 		}else{
 			$("#loading_txt").html("Waiting device to connect...");
-			p = exec("rfcomm listen " + dev + " " + channel.toString(), (error, stdout, stderr) => {
-			 	if(error && !exit_status) error_function(error.toString());
-			 	error_function(stdout);
-			});
+			p = exec("rfcomm listen " + dev + " " + channel.toString());
+			p.stdout.on('data', bla)
+			p.stderr.on('data', function(data){alert("stderr: " + data);})
+			p.stderr.on('exit', function(data){alert("exit: " + data);})
 			//p = run("rfcomm", ["listen", dev, channel], error_function, error_function, nothing);
 		}
 	}
@@ -105,8 +106,6 @@ function files(obj){
 		if(str[i] == comm){ 
 			check_chat = false; 
 			$("#loading").hide();
-			add_file_stream();
-			if(master) writeToDev(dev, "The chat has started...");
 			read_stream(dev, communication); 
 		}
 	}
@@ -177,10 +176,4 @@ function writeToDev(dev, txt){
 
 function read_file_stream(){
 	return fs.readFileSync("./src/txts/files.txt", 'utf8');
-}
-
-function add_file_stream(){
-	var n = parseInt(number);
-	n += 1;
-	fs.writeFile("./src/txts/files.txt", n.toString(), 'utf8', function(err){});
 }
