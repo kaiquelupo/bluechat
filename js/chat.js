@@ -23,10 +23,13 @@ function bla(str){
 
 function exit(link){
 	exit_status = true;
-	writeToDev(dev, "0exit0");
-	p.stdout.removeListener("data", bla);
-	kill_process(p);
+	//writeToDev(dev, "0exit0");
+	//p.stdout.removeListener("data", bla);
+	exec("pkill -9 rfcomm");
+	exec("hcitool dc " + getParameterByName("mac"));
 	exec("rm /dev/rfcomm0");
+
+	exec("re")
 	$("#loading").show();
 	$("#loading_txt").html("Disconnecting, please wait...");
 	setTimeout(function(){window.open(link,"_self");}, 1000);
@@ -135,7 +138,7 @@ function cleanMsg(txt){
 function communication(obj){
 	counter++;
 	var txt = obj.toString();
-	if(txt.length > 1){
+	//if(txt.length > 1){
 		comm_start = false;
 		comm_text = "";
 		txt = cleanMsg(txt); 
@@ -148,7 +151,7 @@ function communication(obj){
 				html_add_msg("<strong>" + getParameterByName("name") + "</strong>: " + txt + "<br>");
 			}
 		}
-	}else{
+	/*}else{
 		if(txt == '<') comm_start = true;
 		else if(txt == '>' && comm_start){
 			comm_start = false;
@@ -164,7 +167,7 @@ function communication(obj){
 		else if(comm_start){
 			comm_text += txt;
 		}
-	}
+	}*/
 }
 
 function writeToDev(dev, txt){
