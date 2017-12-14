@@ -43,6 +43,12 @@ function inputEvent(e, obj) {
     }
 }
 
+function send_msg_button(){
+	writeToDev(dev, $("#sender_input").val());
+	html_add_msg("<strong>Me</strong>: " + $("#sender_input").val() + "<br>");
+    $("#sender_input").val("");
+}
+
 function connect_to_device(mac, channel){
 	var my_mac;
 
