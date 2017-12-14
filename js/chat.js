@@ -38,6 +38,7 @@ function exit(link){
 function inputEvent(e, obj) {	
     if (e.keyCode == 13) {
 		writeToDev(dev, $(obj).val());
+		html_add_msg("<strong>Me</strong>: " + $(obj).val() + "<br>");
     	$(obj).val("");
     }
 }
